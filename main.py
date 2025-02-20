@@ -1,9 +1,9 @@
-from src.data_description import DataDescription
-from src.data_input import DataInput
-from src.imputation import Imputation
-from src.download import Download
-from src.categorical import Categorical
-from src.feature_scaling import FeatureScaling
+from data_description import DataDescription
+from data_input import DataInput
+from imputation import Imputation
+from download import Download
+from categorical import Categorical
+from feature_scaling import FeatureScaling
 
 class Preprocessor:
 
