@@ -1,5 +1,5 @@
 import pandas as pd
-from data_description import DataDescription
+from src.data_description import DataDescription
 
 
 class Imputation:

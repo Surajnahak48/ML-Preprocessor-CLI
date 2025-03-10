@@ -1,9 +1,9 @@
-from data_description import DataDescription
-from data_input import DataInput
-from imputation import Imputation
-from download import Download
-from categorical import Categorical
-from feature_scaling import FeatureScaling
+from src.data_description import DataDescription
+from src.data_input import DataInput
+from src.imputation import Imputation
+from src.download import Download
+from src.categorical import Categorical
+from src.feature_scaling import FeatureScaling
 
 class Preprocessor:
 
@@ -97,7 +97,11 @@ class Preprocessor:
             else:
                 print("\nWrong Integer value!! Try again..\U0001F974")
 
-# obj is the object of our Preprocessor class(main class).
-obj = Preprocessor()
-# the object 'obj' calls the main function of our Preprocessor class.
-obj.preprocessorMain()
+                
+
+def main():
+    obj = Preprocessor()
+    obj.preprocessorMain()
+
+if __name__ == "__main__":
+    main()

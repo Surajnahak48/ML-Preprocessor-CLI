@@ -1,6 +1,6 @@
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
-from data_description import DataDescription
+from src.data_description import DataDescription
 
 class Categorical:
     # The Task associated with this class.
