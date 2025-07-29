@@ -1,9 +1,10 @@
-from src.data_description import DataDescription
-from src.data_input import DataInput
-from src.imputation import Imputation
-from src.download import Download
-from src.categorical import Categorical
-from src.feature_scaling import FeatureScaling
+import argparse
+from data_description import DataDescription
+from data_input import DataInput
+from imputation import Imputation
+from download import Download
+from categorical import Categorical
+from feature_scaling import FeatureScaling
 
 class Preprocessor:
 
@@ -21,8 +22,8 @@ class Preprocessor:
 
     data = 0
     
-    def __init__(self):
-        self.data = DataInput().inputFunction()
+    def __init__(self, input_file):
+        self.data = DataInput().inputFunction(input_file)
         print("\n\n" + self.bold_start + "WELCOME TO THE MACHINE LEARNING PREPROCESSOR CLI!!!\N{grinning face}" + self.bold_end + "\n\n")
 
     # function to remove the target column of the DataFrame.
@@ -32,8 +33,8 @@ class Preprocessor:
             print(column, end = "  ")
         
         while(1):
-            column = input("\nWhich is the target variable:(Press -1 to exit)  ").lower()
-            if column == "-1":
+            column = input("\nWhich is the target variable:(Press q to exit)  ").lower()
+            if column == "q":
                 exit()
             choice = input("Are you sure?(y/n) ")
             if choice=="y" or choice=="Y":
@@ -47,9 +48,6 @@ class Preprocessor:
             else:
                 print("Try again with the correct column name...\U0001F974")
         return
-    
-    def printData(self):
-        print(self.data)
 
     # main function of the Preprocessor class.
     def preprocessorMain(self):
@@ -60,35 +58,31 @@ class Preprocessor:
                 print(task)
 
             while(1):
+                choice = input("\nWhat do you want to do? (Press q to exit):  ").lower()
+                if choice == "q":
+                    exit()
                 try:
-                    choice = int(input("\nWhat do you want to do? (Press -1 to exit):  "))
+                    choice = int(choice)
                 except ValueError:
                     print("Integer Value required. Try again.....\U0001F974")
                     continue
                 break
 
-            if choice == -1:
-                exit()
-
             # moves the control into the DataDescription class.
-            elif choice==1:
+            if choice==1:
                 DataDescription(self.data).describe()
-
 
             # moves the control into the Imputation class.
             elif choice==2:
                 self.data = Imputation(self.data).imputer()
-                
 
             # moves the control into the Categorical class.
             elif choice==3:
                 self.data = Categorical(self.data).categoricalMain()
 
-
             # moves the control into the FeatureScaling class.
             elif choice==4:
                 self.data = FeatureScaling(self.data).scaling()
-
 
             # moves the control into the Download class.
             elif choice==5:
@@ -96,11 +90,19 @@ class Preprocessor:
             
             else:
                 print("\nWrong Integer value!! Try again..\U0001F974")
-
                 
 
 def main():
-    obj = Preprocessor()
+    parser = argparse.ArgumentParser(
+        description="ML Preprocessor CLI",
+        add_help=False  # Disable default help to customize
+    )
+    parser.add_argument('-i', '--input', type=str, required=True, help='Input dataset file path')
+    parser.add_argument('-h', '--help', '-help', action='help', default=argparse.SUPPRESS,
+                        help='Show this help message and exit')
+    args = parser.parse_args()
+
+    obj = Preprocessor(args.input)
     obj.preprocessorMain()
 
 if __name__ == "__main__":

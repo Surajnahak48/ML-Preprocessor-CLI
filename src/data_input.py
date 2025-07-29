@@ -11,6 +11,8 @@ class DataInput:
     # all extensions supported by this project.
     supported_file_extensions = [
         '.csv',
+        '.xlsx',
+        '.xls',
     ]
 
     # function to convert all the column names of any specific dataset into lowercase.
@@ -21,9 +23,9 @@ class DataInput:
 
     # function that takes any dataset from the input file and convert it into DataFrame.
     # The print statements are well defined and tells about the state of the errors.
-    def inputFunction(self):
+    def inputFunction(self, file_path):
+        filename, file_extension = path.splitext(file_path)
         try:
-            filename, file_extension = path.splitext(sys.argv[1])
             if file_extension == "":
                 raise SystemExit(f"Provide the " + self.bold_start + "DATASET" + self.bold_end +" name (with extension).\U0001F643")
 
@@ -34,12 +36,16 @@ class DataInput:
             raise SystemExit(f"Provide the " + self.bold_start + "DATASET" + self.bold_end +" name (with extension).\U0001F643")
         
         try:
-            data = pd.read_csv(filename+file_extension)
+            if file_extension == ".csv":
+                data = pd.read_csv(filename+file_extension, encoding="utf-8")
+            else:
+                data = pd.read_excel(filename+file_extension)
         except pd.errors.EmptyDataError:
             raise SystemExit(f"The file is "+ self.bold_start + "EMPTY" + self.bold_end + "\U0001F635")
-
         except FileNotFoundError:
             raise SystemExit(f"File " + self.bold_start + "doesn't" + self.bold_end + " exist\U0001F635")
+        except Exception as e:
+            raise SystemExit(f"Error reading file: {e}")
 
         data = self.change_to_lower_case(data)
 

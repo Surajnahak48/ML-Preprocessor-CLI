@@ -1,6 +1,6 @@
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
-from src.data_description import DataDescription
+from data_description import DataDescription
 
 class Categorical:
     # The Task associated with this class.
@@ -23,8 +23,8 @@ class Categorical:
     def encoding(self):
         categorical_columns = self.data.select_dtypes(include="object")
         while(1):
-            column = input("\nWhich column would you like to one hot encode?(Press -1 to go back)  ").lower()
-            if column == "-1":
+            column = input("\nWhich column would you like to one hot encode?(Press q or Q to go back)  ").lower()
+            if column == "q" or column == "Q":
                 break
             # The encoding function is only for categorical columns.
             if column in categorical_columns:
@@ -48,17 +48,17 @@ class Categorical:
                 print(task)
 
             while(1):
+                choice = input("\n\nWhat you want to do? (Press q or Q to go back)  ")
+                if choice.lower() == "q":
+                    return self.data  # or break, depending on your flow
                 try:
-                    choice = int(input(("\n\nWhat you want to do? (Press -1 to go back)  ")))
+                    choice = int(choice)
                 except ValueError:
                     print("Integer Value required. Try again...\U0001F974")
                     continue
                 break
 
-            if choice == -1:
-                break
-            
-            elif choice == 1:
+            if choice == 1:
                 self.categoricalColumn()
 
             elif choice == 2:
@@ -70,5 +70,4 @@ class Categorical:
 
             else:
                 print("\nWrong Integer value!! Try again..\U0001F974")
-        # return the data after modifying
         return self.data

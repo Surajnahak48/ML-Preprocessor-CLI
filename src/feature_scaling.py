@@ -1,5 +1,5 @@
 import pandas as pd
-from src.data_description import DataDescription
+from data_description import DataDescription
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
 
 class FeatureScaling:
